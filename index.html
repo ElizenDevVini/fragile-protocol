@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Fragile</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --ink:#0b0a09;
+  --paper:#e9e5dc;
+  --mid:#6a6560;
+  --go:#a8f090;
+}
+
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:'Georgia',serif;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+#cur{
+  position:fixed;width:5px;height:5px;
+  background:var(--paper);border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  mix-blend-mode:difference;
+}
+
+nav{
+  position:fixed;inset:0 0 auto;z-index:700;
+  padding:24px 36px;
+  display:flex;justify-content:space-between;align-items:center;
+  mix-blend-mode:difference;
+}
+nav a{
+  font-family:'Helvetica Neue',sans-serif;font-size:10px;
+  letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--paper);text-decoration:none;opacity:0.5;
+  transition:opacity 0.2s;
+}
+nav a:hover{opacity:1}
+.nav-mark{
+  font-family:'Georgia',serif;font-style:italic;
+  font-size:14px;letter-spacing:0.06em;opacity:0.9!important;
+}
+
+/* ── HERO ── */
+.hero{
+  position:relative;height:100vh;overflow:hidden;
+}
+
+#vid{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;
+  filter:saturate(0.5) brightness(0.88);
+  will-change:transform;
+  transition:transform 0.06s linear;
+}
+
+.hero-fog{
+  position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:
+    linear-gradient(to bottom,rgba(11,10,9,.55) 0%,transparent 20%,transparent 60%,rgba(11,10,9,1) 100%);
+}
+
+.hero-text{
+  position:absolute;left:36px;bottom:48px;z-index:4;
+}
+
+.hero-name{
+  font-size:clamp(80px,15vw,210px);
+  font-weight:400;font-style:italic;
+  letter-spacing:-0.05em;line-height:0.9;
+  color:#fff;
+  mix-blend-mode:difference;
+  clip-path:inset(0 0 105% 0);
+  animation:wipe 1.4s cubic-bezier(0.77,0,0.18,1) 0.3s forwards;
+  display:block;user-select:none;
+}
+
+@keyframes wipe{to{clip-path:inset(0 0 -5% 0)}}
+
+.hero-line{
+  margin-top:18px;
+  font-family:'Helvetica Neue',sans-serif;
+  font-size:12px;letter-spacing:0.04em;
+  color:rgba(233,229,220,0.45);
+  opacity:0;
+  animation:fade 1s ease 1.4s forwards;
+}
+
+@keyframes fade{to{opacity:1}}
+
+/* ── THE POINT ── */
+.point{
+  background:var(--paper);
+  color:var(--ink);
+  padding:130px 36px;
+  position:relative;
+  overflow:hidden;
+}
+
+.point-inner{
+  max-width:720px;
+}
+
+.point-inner p{
+  font-size:clamp(22px,3vw,40px);
+  line-height:1.45;letter-spacing:-0.02em;
+  color:var(--ink);
+  margin-bottom:1.4em;
+}
+
+.point-inner p:last-child{margin-bottom:0}
+.point-inner strong{font-weight:400;font-style:italic;}
+
+.point-inner .aside{
+  font-family:'Helvetica Neue',sans-serif;
+  font-size:12px;letter-spacing:0.04em;
+  color:var(--mid);margin-top:52px;
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:0;
+  border-top:1px solid rgba(11,10,9,0.1);
+  padding-top:32px;
+}
+
+.aside span{padding-right:32px;line-height:1.8;}
+
+/* ── BAND ── */
+.band{
+  background:var(--ink);
+  height:52px;
+  overflow:hidden;
+  position:relative;
+  border-top:1px solid rgba(233,229,220,0.07);
+  border-bottom:1px solid rgba(233,229,220,0.07);
+}
+
+.band-track{
+  display:flex;gap:56px;align-items:center;
+  height:100%;width:max-content;
+  animation:run 18s linear infinite;
+  white-space:nowrap;
+}
+
+.band-track span{
+  font-family:'Helvetica Neue',sans-serif;
+  font-size:9px;letter-spacing:0.28em;text-transform:uppercase;
+  color:rgba(233,229,220,0.28);
+}
+
+.band-track .sep{color:var(--go);opacity:0.4;}
+
+@keyframes run{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── CODE ── */
+.code-section{
+  background:var(--ink);
+  padding:100px 36px;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:0 80px;
+  align-items:start;
+}
+
+.code-label{
+  font-family:'Helvetica Neue',sans-serif;
+  font-size:9px;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--mid);
+  padding-top:4px;
+  writing-mode:vertical-rl;
+  transform:rotate(180deg);
+}
+
+.code-right h2{
+  font-size:clamp(26px,3vw,42px);
+  font-weight:400;letter-spacing:-0.025em;
+  margin-bottom:36px;line-height:1.2;
+}
+
+.code-right h2 em{font-style:italic;color:rgba(233,229,220,0.25)}
+
+pre{
+  font-family:'SF Mono','Fira Code','Courier New',monospace;
+  font-size:13px;line-height:2;
+  border:1px solid rgba(233,229,220,0.08);
+  padding:28px 24px;
+  overflow-x:auto;
+  position:relative;
+  background:transparent;
+}
+
+pre::before{
+  content:'cage.ts';
+  position:absolute;top:10px;right:14px;
+  font-family:'Helvetica Neue',sans-serif;
+  font-size:9px;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--mid);
+}
+
+.t-k{color:#a0b8cc}
+.t-s{color:var(--go)}
+.t-f{color:#c8a8d8}
+.t-c{color:#3a3632;font-style:italic}
+.t-d{color:rgba(233,229,220,0.6)}
+
+.install{
+  margin-top:24px;
+  display:inline-flex;align-items:center;gap:14px;
+  border:1px solid rgba(233,229,220,0.1);padding:10px 16px;
+  cursor:default;transition:border-color 0.2s;
+}
+.install:hover{border-color:rgba(233,229,220,0.25)}
+.install code{
+  font-family:'SF Mono','Fira Code',monospace;
+  font-size:11px;color:var(--go);letter-spacing:0.04em;
+}
+.install span{
+  font-family:'Helvetica Neue',sans-serif;
+  font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--mid);
+}
+
+/* ── END ── */
+.end{
+  background:var(--ink);
+  border-top:1px solid rgba(233,229,220,0.07);
+  padding:160px 36px 120px;
+  position:relative;overflow:hidden;
+}
+
+.end-inner{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;gap:0;
+}
+
+.end-big{
+  font-size:clamp(60px,12vw,180px);
+  font-weight:400;font-style:italic;
+  letter-spacing:-0.05em;line-height:0.9;
+  color:var(--paper);opacity:0.07;
+  user-select:none;pointer-events:none;
+}
+
+.end-cta{
+  margin-top:-0.3em;
+  position:relative;z-index:3;
+}
+
+.end-cta p{
+  font-family:'Helvetica Neue',sans-serif;
+  font-size:14px;line-height:1.7;color:var(--mid);
+  max-width:400px;margin-bottom:36px;
+}
+
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+
+.btn{
+  font-family:'Helvetica Neue',sans-serif;
+  font-size:10px;letter-spacing:0.18em;text-transform:uppercase;
+  text-decoration:none;padding:13px 24px;
+  transition:opacity 0.2s;
+}
+.btn-fill{background:var(--paper);color:var(--ink)}
+.btn-fill:hover{opacity:0.8}
+.btn-out{border:1px solid rgba(233,229,220,0.2);color:var(--paper);opacity:0.45}
+.btn-out:hover{opacity:1}
+
+footer{
+  border-top:1px solid rgba(233,229,220,0.06);
+  padding:22px 36px;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:10px;
+}
+footer span,footer a{
+  font-family:'Helvetica Neue',sans-serif;
+  font-size:9px;letter-spacing:0.1em;
+  color:rgba(233,229,220,0.18);text-decoration:none;
+}
+footer a:hover{color:rgba(233,229,220,0.5)}
+
+.r{
+  opacity:0;transform:translateY(16px);
+  transition:opacity 1s cubic-bezier(0.16,1,0.3,1),transform 1s cubic-bezier(0.16,1,0.3,1);
+}
+.r.on{opacity:1;transform:none}
+.d1{transition-delay:0.12s}.d2{transition-delay:0.26s}.d3{transition-delay:0.4s}
+
+@media(max-width:720px){
+  .code-section{grid-template-columns:1fr;gap:32px}
+  .code-label{writing-mode:horizontal-tb;transform:none}
+  .point{padding:80px 24px}
+  .end{padding:100px 24px 80px}
+  footer{padding:18px 24px;flex-direction:column;text-align:center}
+  .point-inner .aside{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<canvas id="grain" style="position:fixed;inset:0;width:100%;height:100%;z-index:9990;pointer-events:none;opacity:0.04;mix-blend-mode:overlay;"></canvas>
+<div id="cur"></div>
+
+<nav>
+  <a class="nav-mark" href="#">Fragile</a>
+  <div style="display:flex;gap:24px">
+    <a href="https://github.com" target="_blank">GitHub</a>
+    <a href="#end">Get started</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <video id="vid" src="hero.mp4" autoplay muted loop playsinline></video>
+  <div class="hero-fog"></div>
+  <div class="hero-text">
+    <span class="hero-name">Fragile</span>
+    <p class="hero-line">AI spending limits, on-chain. Base L2.</p>
+  </div>
+</section>
+
+<section class="point">
+  <div class="point-inner">
+    <p class="r">Your AI agent needs money to work.<br>Right now it either has all of yours — or none.</p>
+    <p class="r d1"><strong>Fragile is the cage in between.</strong></p>
+    <p class="r d2">Lock in a budget. Set who it can pay. Set when it expires. After that, the rules live on-chain. If the agent tries to go over — it can't. The transaction fails. Not "gets flagged." Not "sends you an email." <strong>Can't.</strong></p>
+    <div class="aside r d3">
+      <span>Cage.sol<br>Your rules, on-chain</span>
+      <span>Session keys<br>Not your private key</span>
+      <span>Base L2<br>Cheap. Fast. Real.</span>
+    </div>
+  </div>
+</section>
+
+<div class="band">
+  <div class="band-track">
+    <span>fragile</span><span class="sep">×</span>
+    <span>set a limit</span><span class="sep">×</span>
+    <span>it holds</span><span class="sep">×</span>
+    <span>base l2</span><span class="sep">×</span>
+    <span>on-chain</span><span class="sep">×</span>
+    <span>fragile</span><span class="sep">×</span>
+    <span>set a limit</span><span class="sep">×</span>
+    <span>it holds</span><span class="sep">×</span>
+    <span>base l2</span><span class="sep">×</span>
+    <span>on-chain</span><span class="sep">×</span>
+  </div>
+</div>
+
+<section class="code-section">
+  <span class="code-label r">SDK</span>
+  <div class="code-right">
+    <h2 class="r">Three lines.<br><em>That's the whole thing.</em></h2>
+<pre class="r d1"><span class="t-k">import</span> { createFragile } <span class="t-k">from</span> <span class="t-s">'@fragile/sdk'</span>
+
+<span class="t-c">// point at your cage, hand it the session key</span>
+<span class="t-d">const</span> fragile = <span class="t-f">createFragile</span>({ cage: <span class="t-s">'0x…'</span>, sessionKey: key, chain: base })
+
+<span class="t-c">// agent pays — chain checks your rules, not you</span>
+<span class="t-d">await</span> fragile.<span class="t-f">pay</span>({ to: <span class="t-s">'0xRecipient'</span>, amount: <span class="t-s">'0.01 ETH'</span> })
+
+<span class="t-c">// or just say it</span>
+<span class="t-d">await</span> fragile.<span class="t-f">intent</span>(<span class="t-s">'spend up to 0.1 ETH on Uniswap for 24h'</span>)</pre>
+    <div class="install r d2">
+      <code>npm i @fragile/sdk</code>
+      <span id="copy-label">copy</span>
+    </div>
+  </div>
+</section>
+
+<section class="end" id="end">
+  <div class="end-inner">
+    <div class="end-big r">Fragile</div>
+    <div class="end-cta r d1">
+      <p>Deploy a cage. Lock a budget. That's it.<br>Your agent runs. It can't overspend.</p>
+      <div class="btns">
+        <a class="btn btn-fill" href="#">Read the docs</a>
+        <a class="btn btn-out" href="https://github.com" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>Fragile · 2026</span>
+  <span>Cage.sol · CageFactory.sol · AgentRegistry.sol</span>
+  <a href="mailto:hello@fragile.build">hello@fragile.build</a>
+</footer>
+
+<script>
+// ── CURSOR ──
+const cur = document.getElementById('cur')
+document.addEventListener('mousemove', e => {
+  cur.style.left = e.clientX + 'px'
+  cur.style.top  = e.clientY + 'px'
+})
+
+// ── GRAIN ──
+const gc = document.querySelector('#grain')
+const gx = gc.getContext('2d')
+let gf = 0
+function resizeGrain(){ gc.width = innerWidth; gc.height = innerHeight }
+function tickGrain(){
+  const w = gc.width, h = gc.height
+  const img = gx.createImageData(w, h), d = img.data, s = gf * 6701
+  for(let i = 0; i < d.length; i += 4){
+    const n = (((i ^ s) * 2654435761) >>> 0) & 0xff
+    d[i] = d[i+1] = d[i+2] = n; d[i+3] = 255
+  }
+  gx.putImageData(img, 0, 0); gf++
+  requestAnimationFrame(tickGrain)
+}
+window.addEventListener('resize', resizeGrain)
+resizeGrain(); tickGrain()
+
+// ── VIDEO PARALLAX ──
+const vid = document.getElementById('vid')
+document.addEventListener('mousemove', e => {
+  const x = (e.clientX / innerWidth  - 0.5) * 16
+  const y = (e.clientY / innerHeight - 0.5) * 12
+  vid.style.transform = `translate(${x}px,${y}px) scale(1.07)`
+})
+
+// ── COPY ──
+document.querySelector('.install').addEventListener('click', () => {
+  navigator.clipboard.writeText('npm i @fragile/sdk')
+  const l = document.getElementById('copy-label')
+  l.textContent = 'copied'
+  setTimeout(() => l.textContent = 'copy', 1600)
+})
+
+// ── REVEALS ──
+const io = new IntersectionObserver(
+  entries => entries.forEach(e => {
+    if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target) }
+  }),
+  {threshold:0.08}
+)
+document.querySelectorAll('.r').forEach(el => io.observe(el))
+</script>
+</body>
+</html>
