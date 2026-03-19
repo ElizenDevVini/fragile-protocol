@@ -56,19 +56,21 @@ nav a:hover{opacity:1}
 #vid{
   position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;
-  filter:saturate(0.5) brightness(0.88);
+  filter:saturate(0.75) brightness(1.05);
   will-change:transform;
-  transition:transform 0.06s linear;
 }
 
 .hero-fog{
   position:absolute;inset:0;z-index:3;pointer-events:none;
   background:
-    linear-gradient(to bottom,rgba(11,10,9,.55) 0%,transparent 20%,transparent 60%,rgba(11,10,9,1) 100%);
+    linear-gradient(to bottom,rgba(11,10,9,.3) 0%,transparent 18%,transparent 65%,rgba(11,10,9,.8) 100%);
 }
 
 .hero-text{
-  position:absolute;left:36px;bottom:48px;z-index:4;
+  position:absolute;inset:0;z-index:4;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
 }
 
 .hero-name{
@@ -85,15 +87,35 @@ nav a:hover{opacity:1}
 @keyframes wipe{to{clip-path:inset(0 0 -5% 0)}}
 
 .hero-line{
-  margin-top:18px;
+  margin-top:20px;
   font-family:'Helvetica Neue',sans-serif;
-  font-size:12px;letter-spacing:0.04em;
-  color:rgba(233,229,220,0.45);
+  font-size:12px;letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(233,229,220,0.4);
   opacity:0;
   animation:fade 1s ease 1.4s forwards;
 }
 
 @keyframes fade{to{opacity:1}}
+
+.scroll-hint{
+  position:absolute;bottom:36px;left:50%;
+  transform:translateX(-50%);
+  z-index:5;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  opacity:0;animation:fade 1s ease 2s forwards;
+}
+.scroll-hint span{
+  font-family:'Helvetica Neue',sans-serif;
+  font-size:9px;letter-spacing:0.22em;text-transform:uppercase;
+  color:rgba(233,229,220,0.25);
+}
+.scroll-hint .bar{
+  width:1px;height:40px;
+  background:rgba(233,229,220,0.2);
+  transform-origin:top;
+  animation:bar 2s ease-in-out infinite 2.2s;
+}
+@keyframes bar{0%{transform:scaleY(0);opacity:0}50%{transform:scaleY(1);opacity:1}100%{transform:scaleY(0);opacity:0}}
 
 /* ── THE POINT ── */
 .point{
@@ -130,12 +152,57 @@ nav a:hover{opacity:1}
 
 .aside span{padding-right:32px;line-height:1.8;}
 
+/* ── RULES LIST ── */
+.rules{
+  background:var(--paper);
+  color:var(--ink);
+  padding:0 36px 120px;
+}
+
+.rules-label{
+  font-family:'Helvetica Neue',sans-serif;
+  font-size:9px;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--mid);
+  margin-bottom:36px;
+  display:block;
+  padding-top:1px;
+  border-top:1px solid rgba(11,10,9,0.08);
+  padding-top:24px;
+}
+
+.rules-list{
+  list-style:none;
+}
+
+.rules-list li{
+  font-size:clamp(18px,2.8vw,46px);
+  font-weight:400;letter-spacing:-0.025em;
+  line-height:1;
+  padding:18px 0;
+  border-bottom:1px solid rgba(11,10,9,0.09);
+  color:var(--ink);
+  display:flex;align-items:baseline;gap:20px;
+}
+
+.rules-list li em{
+  font-style:normal;
+  font-family:'Helvetica Neue',sans-serif;
+  font-size:9px;letter-spacing:0.18em;
+  color:var(--mid);
+  min-width:20px;flex-shrink:0;
+}
+
+.rules-foot{
+  font-family:'Helvetica Neue',sans-serif;
+  font-size:13px;line-height:1.75;
+  color:var(--mid);
+  margin-top:40px;max-width:460px;
+}
+
 /* ── BAND ── */
 .band{
   background:var(--ink);
-  height:52px;
-  overflow:hidden;
-  position:relative;
+  height:52px;overflow:hidden;position:relative;
   border-top:1px solid rgba(233,229,220,0.07);
   border-bottom:1px solid rgba(233,229,220,0.07);
 }
@@ -224,6 +291,65 @@ pre::before{
   font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--mid);
 }
 
+/* ── AUDIT ── */
+.audit{
+  background:var(--ink);
+  padding:120px 36px;
+  border-top:1px solid rgba(233,229,220,0.07);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0 80px;
+  align-items:start;
+}
+
+.audit-tag{
+  font-family:'Helvetica Neue',sans-serif;
+  font-size:9px;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--go);
+  display:block;margin-bottom:28px;
+}
+
+.audit-left h2{
+  font-size:clamp(28px,4vw,60px);
+  font-weight:400;letter-spacing:-0.03em;
+  line-height:1.0;margin-bottom:24px;
+}
+
+.audit-left h2 em{font-style:italic;color:rgba(233,229,220,0.22)}
+
+.audit-left > p{
+  font-family:'Helvetica Neue',sans-serif;
+  font-size:14px;line-height:1.75;
+  color:rgba(233,229,220,0.42);
+  max-width:360px;
+}
+
+.audit-right{
+  display:flex;flex-direction:column;gap:0;
+}
+
+.audit-item{
+  padding:28px 0;
+  border-bottom:1px solid rgba(233,229,220,0.06);
+}
+.audit-item:first-child{
+  border-top:1px solid rgba(233,229,220,0.06);
+}
+
+.audit-item strong{
+  display:block;
+  font-family:'Helvetica Neue',sans-serif;
+  font-size:10px;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--paper);font-weight:500;
+  margin-bottom:8px;
+}
+
+.audit-item p{
+  font-family:'Helvetica Neue',sans-serif;
+  font-size:13px;line-height:1.65;
+  color:rgba(233,229,220,0.35);
+}
+
 /* ── END ── */
 .end{
   background:var(--ink);
@@ -241,7 +367,7 @@ pre::before{
   font-size:clamp(60px,12vw,180px);
   font-weight:400;font-style:italic;
   letter-spacing:-0.05em;line-height:0.9;
-  color:var(--paper);opacity:0.07;
+  color:var(--paper);opacity:0.06;
   user-select:none;pointer-events:none;
 }
 
@@ -288,11 +414,14 @@ footer a:hover{color:rgba(233,229,220,0.5)}
 }
 .r.on{opacity:1;transform:none}
 .d1{transition-delay:0.12s}.d2{transition-delay:0.26s}.d3{transition-delay:0.4s}
+.d4{transition-delay:0.54s}.d5{transition-delay:0.68s}
 
 @media(max-width:720px){
   .code-section{grid-template-columns:1fr;gap:32px}
   .code-label{writing-mode:horizontal-tb;transform:none}
   .point{padding:80px 24px}
+  .rules{padding:0 24px 80px}
+  .audit{grid-template-columns:1fr;gap:56px;padding:80px 24px}
   .end{padding:100px 24px 80px}
   footer{padding:18px 24px;flex-direction:column;text-align:center}
   .point-inner .aside{grid-template-columns:1fr}
@@ -317,9 +446,30 @@ footer a:hover{color:rgba(233,229,220,0.5)}
   <div class="hero-fog"></div>
   <div class="hero-text">
     <span class="hero-name">Fragile</span>
-    <p class="hero-line">AI spending limits, on-chain. Base L2.</p>
+    <p class="hero-line">AI spending limits · on-chain · Base L2</p>
+  </div>
+  <div class="scroll-hint">
+    <div class="bar"></div>
+    <span>Scroll</span>
   </div>
 </section>
+
+<div class="band">
+  <div class="band-track">
+    <span>fragile</span><span class="sep">×</span>
+    <span>set a limit</span><span class="sep">×</span>
+    <span>it holds</span><span class="sep">×</span>
+    <span>base l2</span><span class="sep">×</span>
+    <span>on-chain</span><span class="sep">×</span>
+    <span>session keys</span><span class="sep">×</span>
+    <span>fragile</span><span class="sep">×</span>
+    <span>set a limit</span><span class="sep">×</span>
+    <span>it holds</span><span class="sep">×</span>
+    <span>base l2</span><span class="sep">×</span>
+    <span>on-chain</span><span class="sep">×</span>
+    <span>session keys</span><span class="sep">×</span>
+  </div>
+</div>
 
 <section class="point">
   <div class="point-inner">
@@ -334,20 +484,17 @@ footer a:hover{color:rgba(233,229,220,0.5)}
   </div>
 </section>
 
-<div class="band">
-  <div class="band-track">
-    <span>fragile</span><span class="sep">×</span>
-    <span>set a limit</span><span class="sep">×</span>
-    <span>it holds</span><span class="sep">×</span>
-    <span>base l2</span><span class="sep">×</span>
-    <span>on-chain</span><span class="sep">×</span>
-    <span>fragile</span><span class="sep">×</span>
-    <span>set a limit</span><span class="sep">×</span>
-    <span>it holds</span><span class="sep">×</span>
-    <span>base l2</span><span class="sep">×</span>
-    <span>on-chain</span><span class="sep">×</span>
-  </div>
-</div>
+<section class="rules">
+  <span class="rules-label r">What you set once</span>
+  <ul class="rules-list">
+    <li class="r"><em>01</em> Max spend per transaction.</li>
+    <li class="r d1"><em>02</em> Max spend per day.</li>
+    <li class="r d2"><em>03</em> Which addresses it can send to.</li>
+    <li class="r d3"><em>04</em> When the whole thing expires.</li>
+    <li class="r d4"><em>05</em> Whether it runs at all.</li>
+  </ul>
+  <p class="rules-foot r d5">Write them. Deploy. Walk away. The agent can't talk its way around them — neither can you, without starting a new cage from scratch.</p>
+</section>
 
 <section class="code-section">
   <span class="code-label r">SDK</span>
@@ -358,7 +505,7 @@ footer a:hover{color:rgba(233,229,220,0.5)}
 <span class="t-c">// point at your cage, hand it the session key</span>
 <span class="t-d">const</span> fragile = <span class="t-f">createFragile</span>({ cage: <span class="t-s">'0x…'</span>, sessionKey: key, chain: base })
 
-<span class="t-c">// agent pays — chain checks your rules, not you</span>
+<span class="t-c">// agent pays — chain checks the rules, not you</span>
 <span class="t-d">await</span> fragile.<span class="t-f">pay</span>({ to: <span class="t-s">'0xRecipient'</span>, amount: <span class="t-s">'0.01 ETH'</span> })
 
 <span class="t-c">// or just say it</span>
@@ -366,6 +513,32 @@ footer a:hover{color:rgba(233,229,220,0.5)}
     <div class="install r d2">
       <code>npm i @fragile/sdk</code>
       <span id="copy-label">copy</span>
+    </div>
+  </div>
+</section>
+
+<section class="audit">
+  <div class="audit-left">
+    <span class="audit-tag r">Audit &amp; control</span>
+    <h2 class="r">It writes<br>everything <em>down.</em></h2>
+    <p class="r d1">Every payment. Every rejection. Every time the agent hit the ceiling and bounced. The log is on the contract — you didn't have to be awake for it.</p>
+  </div>
+  <div class="audit-right r d2">
+    <div class="audit-item">
+      <strong>On-chain events</strong>
+      <p>Payments and rejections are contract events. Permanent. Nobody edits them after the fact.</p>
+    </div>
+    <div class="audit-item">
+      <strong>Hard limits</strong>
+      <p>No admin bypass. No override flag. The contract says no and that is the end of it.</p>
+    </div>
+    <div class="audit-item">
+      <strong>Kill switch</strong>
+      <p>One call to deactivate(). Budget zeroes out. Agent stops. No waiting on anyone.</p>
+    </div>
+    <div class="audit-item">
+      <strong>Session keys</strong>
+      <p>The agent never touches your private key. It gets a short-lived key scoped to the cage — nothing else.</p>
     </div>
   </div>
 </section>
@@ -415,13 +588,24 @@ function tickGrain(){
 window.addEventListener('resize', resizeGrain)
 resizeGrain(); tickGrain()
 
-// ── VIDEO PARALLAX ──
+// ── VIDEO PARALLAX — scroll zoom-out + mouse drift ──
 const vid = document.getElementById('vid')
+let mx = 0, my = 0
+
 document.addEventListener('mousemove', e => {
-  const x = (e.clientX / innerWidth  - 0.5) * 16
-  const y = (e.clientY / innerHeight - 0.5) * 12
-  vid.style.transform = `translate(${x}px,${y}px) scale(1.07)`
+  mx = (e.clientX / innerWidth  - 0.5) * 14
+  my = (e.clientY / innerHeight - 0.5) * 10
 })
+
+function updateVid(){
+  const sy = window.scrollY
+  // start zoomed in, pull back as you scroll
+  const scale = Math.max(1.0, 1.22 - sy * 0.00034)
+  const ty = sy * 0.28
+  vid.style.transform = `translate(${mx}px,${my + ty}px) scale(${scale})`
+  requestAnimationFrame(updateVid)
+}
+updateVid()
 
 // ── COPY ──
 document.querySelector('.install').addEventListener('click', () => {
@@ -436,7 +620,7 @@ const io = new IntersectionObserver(
   entries => entries.forEach(e => {
     if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target) }
   }),
-  {threshold:0.08}
+  {threshold:0.06}
 )
 document.querySelectorAll('.r').forEach(el => io.observe(el))
 </script>
